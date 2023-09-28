@@ -4,6 +4,8 @@ import java.io.*;
 
 public class JavaCraft
 {
+  private static final boolean DEBUG_STATE = true;
+
   private static final int AIR = 0;
 
   private static final int WOOD = 1;
@@ -13,6 +15,8 @@ public class JavaCraft
   private static final int STONE = 3;
 
   private static final int IRON_ORE = 4;
+
+  private static final int MINE = 99;
 
 
   private static int NEW_WORLD_WIDTH = 25;
@@ -152,6 +156,13 @@ public class JavaCraft
     inventory = new ArrayList<>();
   }
 
+  public static boolean CheckMine(int x, int y){
+    if(world[x][y] == MINE)
+      return true;
+    else
+      return false;
+  }
+
   public static void generateWorld()
   {
     Random rand = new Random();
@@ -162,7 +173,11 @@ public class JavaCraft
       {
         int randValue = rand.nextInt(100);
 
-        if (randValue < 20)
+        if(randValue < 5)
+        {
+          world[x][y] = MINE;
+        }
+        else if (randValue < 20)
         {
           world[x][y] = WOOD;
         }
@@ -302,6 +317,12 @@ public class JavaCraft
         }
 
         movePlayer(input);
+
+        if(CheckMine(playerX,playerY))
+        {
+          System.out.println(ANSI_RED + "You stepped on a mine");
+          break;
+        }
 
       }
       else if (input.equalsIgnoreCase("m"))
@@ -508,22 +529,25 @@ public class JavaCraft
 
   private static void clearScreen()
   {
-    try
+    if(!DEBUG_STATE)
     {
-      if (System.getProperty("os.name").contains("Windows"))
+      try
       {
-        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-      }
-      else
-      {
-        System.out.print("\033[H\033[2J");
+        if (System.getProperty("os.name").contains("Windows"))
+        {
+          new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        }
+        else
+        {
+          System.out.print("\033[H\033[2J");
 
-        System.out.flush();
+          System.out.flush();
+        }
       }
-    }
-    catch (IOException | InterruptedException ex)
-    {
-      ex.printStackTrace();
+      catch (IOException | InterruptedException ex)
+      {
+        ex.printStackTrace();
+      }
     }
   }
 
@@ -610,8 +634,88 @@ public class JavaCraft
     waitForEnter();
   }
 
+  public static String AskForDirection(){
+    Scanner scanner = new Scanner(System.in);
+    boolean validInput = false;
+    String direction = ""; 
+    
+    
+    while(!validInput)
+    {
+      System.out.println("Choose how you want to place your block: \n\t(A) Place it at your position \n\t(B) Place in a direction");
+
+      String choice = scanner.nextLine().toLowerCase();
+
+      if(choice.equalsIgnoreCase("a"))
+      {
+        validInput = true;
+        direction = "OwnPlace";
+      }else if(choice.equalsIgnoreCase("b"))
+      {
+        validInput = true;
+        boolean PlaceInput = false;
+        while(!PlaceInput)
+        {
+          System.out.println("Choose the direction: 'W','S','D','A'");
+            
+          choice = scanner.nextLine().toLowerCase();
+
+          switch(choice)
+          {
+            case "w": PlaceInput = true;direction = "W";break;
+            case "s": PlaceInput = true;direction = "S";break;
+            case "c": PlaceInput = true;direction = "D";break;
+            case "a": PlaceInput = true;direction = "A";break;
+
+            default: PlaceInput = false;break;
+          }
+        }
+      }
+      if(!validInput)
+      {
+        System.out.println(ANSI_RED + "USE THE RIGHT INPUTS" + ANSI_RESET);
+      }
+    }
+
+    return direction;
+  }
+
   public static void placeBlock(int blockType)
   {
+    String direction = AskForDirection();
+
+    int BlockCoordsX = playerX;
+    int BlockCoordsY = playerY;
+
+    switch(direction){
+      case "ownPlace": break;
+      case "W": 
+        if(playerY > 0)
+        {
+          BlockCoordsY--;
+        }
+        break;
+      case "S":        
+        if (playerY < worldHeight - 1)
+        {
+          BlockCoordsY++;
+        }
+        break;
+      case "A": 
+        if (playerX > 0)
+        {
+          BlockCoordsX--;
+        }
+        break;
+      case "D":
+        if (playerX < worldWidth - 1)
+        {
+          BlockCoordsX++;
+        }
+        break;
+      default: break;
+    }
+
     if (blockType >= 0 && blockType <= 7)
     {
       if (blockType <= 4)
@@ -620,7 +724,7 @@ public class JavaCraft
         {
           inventory.remove(Integer.valueOf(blockType));
 
-          world[playerX][playerY] = blockType;
+          world[BlockCoordsX][BlockCoordsY] = blockType;
 
           System.out.println("Placed " + getBlockName(blockType) + " at your position.");
         }
@@ -637,14 +741,19 @@ public class JavaCraft
         {
           craftedItems.remove(Integer.valueOf(craftedItem));
 
-          world[playerX][playerY] = blockType;
+          world[BlockCoordsX][BlockCoordsY] = blockType;
 
-          System.out.println("Placed " + getCraftedItemName(craftedItem) + " at your position.");
+          if(CheckMine(BlockCoordsX,BlockCoordsY))
+          {
+            System.out.println(ANSI_GREEN + "You covered a mine! Good Job!" + ANSI_RESET);
+          }
+
+          System.out.println("Placed " + getCraftedItemName(craftedItem));
         }
         else
-        {
-          System.out.println("You don't have " + getCraftedItemName(craftedItem) + " in your crafted items.");
-        }
+          {
+            System.out.println("You don't have " + getCraftedItemName(craftedItem) + " in your crafted items.");
+          }
       }
     }
     else
