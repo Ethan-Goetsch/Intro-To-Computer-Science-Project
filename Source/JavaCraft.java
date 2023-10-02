@@ -165,8 +165,9 @@ public class JavaCraft
     inventory = new ArrayList<>();
   }
 
-  public static boolean CheckMine(int x, int y){
-    if(world[x][y] == MINE)
+  public static boolean CheckMine(int x, int y)
+  {
+    if (world[x][y] == MINE)
       return true;
     else
       return false;
