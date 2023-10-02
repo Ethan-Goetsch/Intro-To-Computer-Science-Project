@@ -16,7 +16,10 @@ public class JavaCraft
 
   private static final int IRON_ORE = 4;
 
+  private static final int OBSIDIAN = 5;
+
   private static final int MINE = 99;
+
 
 
   private static int NEW_WORLD_WIDTH = 25;
@@ -33,6 +36,9 @@ public class JavaCraft
 
   private static final int CRAFT_IRON_INGOT = 102;
 
+  private static final int CRAFT_ENCHANTMENT_TABLE = 103;
+
+
   
 
   private static final int CRAFTED_WOODEN_PLANKS = 200;
@@ -40,6 +46,8 @@ public class JavaCraft
   private static final int CRAFTED_STICK = 201;
 
   private static final int CRAFTED_IRON_INGOT = 202;
+
+  private static final int CRAFTED_ENCHANTMENT_TABLE = 203;
 
 
   private static final String ANSI_BROWN = "\u001B[33m";
@@ -71,7 +79,8 @@ public class JavaCraft
       "4 - Iron ore block\n" +
       "5 - Wooden Planks (Crafted Item)\n" +
       "6 - Stick (Crafted Item)\n" +
-      "7 - Iron Ingot (Crafted Item)";
+      "7 - Iron Ingot (Crafted Item)\n" +
+      "8 - Enchantment Table (Crafted Item)";
 
 
   private static int[][] world;
@@ -193,6 +202,10 @@ public class JavaCraft
         {
           world[x][y] = IRON_ORE;
         }
+        else if (randValue < 80)
+        {
+          world[x][y] = OBSIDIAN;
+        }
         else
         {
           world[x][y] = AIR;
@@ -251,6 +264,9 @@ public class JavaCraft
       case IRON_ORE:
         blockColor = ANSI_WHITE;
         break;
+      case OBSIDIAN:
+        blockColor = ANSI_PURPLE;
+        break;
       default:
         blockColor = ANSI_RESET;
         break;
@@ -271,6 +287,8 @@ public class JavaCraft
         return '\u2593';
       case IRON_ORE:
         return '\u00B0';
+      case OBSIDIAN:
+        return '\u2592';
       default:
         return '-';
     }
@@ -776,6 +794,8 @@ public class JavaCraft
         return 6;
       case CRAFTED_IRON_INGOT:
         return 7;
+      case CRAFTED_ENCHANTMENT_TABLE:
+        return 8;
       default:
         return -1;
     }
@@ -791,6 +811,8 @@ public class JavaCraft
         return CRAFTED_STICK;
       case 7:
         return CRAFTED_IRON_INGOT;
+      case 8:
+        return CRAFTED_ENCHANTMENT_TABLE;
       default:
         return -1;
     }
@@ -805,6 +827,8 @@ public class JavaCraft
     System.out.println("2. Craft Stick: 1 Wood");
 
     System.out.println("3. Craft Iron Ingot: 3 Iron Ore");
+
+    System.out.println("4. Craft Enchantment Table: 2 Obsidian");
   }
 
   public static void craftItem(int recipe)
@@ -819,6 +843,8 @@ public class JavaCraft
         break;
       case 3:
         craftIronIngot();
+      case 4:
+        craftEnchantmentTable();
         break;
       default:
         System.out.println("Invalid recipe number.");
@@ -874,6 +900,22 @@ public class JavaCraft
     }
   }
 
+   public static void craftEnchantmentTable()
+  {
+    if (inventoryContains (OBSIDIAN,2))
+    {
+      removeItemsFromInventory(OBSIDIAN, 2);
+
+      addCraftedItem(CRAFTED_ENCHANTMENT_TABLE);
+
+      System.out.println("Crafted Enchantment Table");
+    }
+    else
+    {
+      System.out.println("Insufficient resources to craft Enchantment Table");
+    }
+  }
+
   public static boolean inventoryContains(int item)
   {
     return inventory.contains(item);
@@ -898,7 +940,7 @@ public class JavaCraft
 
     return false;
   }
-
+ 
   public static void removeItemsFromInventory(int item, int count)
   {
     int removedCount = 0;
@@ -953,6 +995,10 @@ public class JavaCraft
       case IRON_ORE:
         System.out.println("You mine iron ore from the ground.");
         inventory.add(IRON_ORE);
+        break;
+      case OBSIDIAN:
+        System.out.println("You mine obsidian from the ground.");
+        inventory.add(OBSIDIAN);
         break;
       case AIR:
         System.out.println("Nothing to interact with here.");
@@ -1040,6 +1086,8 @@ public class JavaCraft
         return "Stone";
       case IRON_ORE:
         return "Iron Ore";
+      case OBSIDIAN:
+        return "Obsidian";
       default:
         return "Unknown";
     }
@@ -1072,7 +1120,7 @@ public class JavaCraft
     }
     else
     {
-      int[] blockCounts = new int[5];
+      int[] blockCounts = new int[6];
 
       for (int i = 0; i < inventory.size(); i++)
       {
@@ -1123,6 +1171,8 @@ public class JavaCraft
         return ANSI_GRAY;
       case IRON_ORE:
         return ANSI_YELLOW;
+      case OBSIDIAN:
+        return ANSI_PURPLE;
       default:
         return "";
     }
@@ -1147,6 +1197,8 @@ public class JavaCraft
         return "Stick";
       case CRAFTED_IRON_INGOT:
         return "Iron Ingot";
+      case CRAFTED_ENCHANTMENT_TABLE:
+        return "Enchantment Table";
       default:
         return "Unknown";
     }
@@ -1159,6 +1211,7 @@ public class JavaCraft
       case CRAFTED_WOODEN_PLANKS:
       case CRAFTED_STICK:
       case CRAFTED_IRON_INGOT:
+      case CRAFTED_ENCHANTMENT_TABLE:
         return ANSI_BROWN;
       default:
         return "";
