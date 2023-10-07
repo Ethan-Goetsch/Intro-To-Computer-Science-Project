@@ -215,20 +215,27 @@ public class JavaCraftImproved
     }
   }
 
-  public static String GetRowColor(int row){
+  public static String GetRowColor(int row)
+  {
       row = row + 1;
-      if(row <= 3 || (row > 15)){
-         return ANSI_RED;
-      }else if(row <= 6 || (row <=18 && row > 12)){
+      if(row <= 3 || (row > 15))
+      {
+        return ANSI_RED;
+      }
+      else if(row <= 6 || (row <=18 && row > 12))
+      {
         return ANSI_WHITE;
-      }else if(row <= 12){
+      }
+      else if(row <= 12)
+      {
         return ANSI_BLUE;
       }
 
       return "";
   }
 
-  public static void DrawFlagTEST(){
+  public static void DrawFlagTEST()
+  {
     int flagHeight = 18;
     int flagWidth = 69;
 
@@ -236,10 +243,12 @@ public class JavaCraftImproved
 
     String Current_color = "";
 
-    for(int i = 0; i < flagHeight; i++){
+    for(int i = 0; i < flagHeight; i++)
+    {
       Current_color = GetRowColor(i);
 
-      for(int j=0; j < flagWidth; j++){
+      for(int j=0; j < flagWidth; j++)
+      {
         System.out.print(Current_color + "■");
       }
       System.out.println();
@@ -247,7 +256,8 @@ public class JavaCraftImproved
     System.out.print(ANSI_RESET);
   }
 
-    public static void DrawFlag(){
+    public static void DrawFlag()
+    {
     int flagHeight = 18;
     int flagWidth = 69;
 
@@ -255,10 +265,12 @@ public class JavaCraftImproved
 
     String Current_color = "";
 
-    for(int i = 0; i < flagHeight; i++){
+    for(int i = 0; i < flagHeight; i++)
+    {
       Current_color = GetRowColor(i);
 
-      for(int j=0; j < flagWidth; j++){
+      for(int j=0; j < flagWidth; j++)
+      {
         System.out.print(Current_color + "■");
       }
       System.out.println();
