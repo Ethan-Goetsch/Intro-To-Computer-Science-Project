@@ -165,7 +165,7 @@ public class JavaCraft
     inventory = new ArrayList<>();
   }
 
-  public static boolean CheckMine(int x, int y)
+  public static boolean checkMine(int x, int y)
   {
     if (world[x][y] == MINE)
       return true;
@@ -337,7 +337,7 @@ public class JavaCraft
 
         movePlayer(input);
 
-        if(CheckMine(playerX,playerY))
+        if(checkMine(playerX,playerY))
         {
           System.out.println(ANSI_RED + "You stepped on a mine");
           break;
@@ -653,7 +653,8 @@ public class JavaCraft
     waitForEnter();
   }
 
-  public static String AskForDirection(){
+  public static String AskForDirection()
+  {
     Scanner scanner = new Scanner(System.in);
     boolean validInput = false;
     String direction = ""; 
@@ -665,14 +666,18 @@ public class JavaCraft
 
       String choice = scanner.nextLine().toLowerCase();
 
-      if(choice.equalsIgnoreCase("a"))
+      if (choice.equalsIgnoreCase("a"))
       {
         validInput = true;
+
         direction = "OwnPlace";
-      }else if(choice.equalsIgnoreCase("b"))
+      }
+      else if (choice.equalsIgnoreCase("b"))
       {
         validInput = true;
+
         boolean PlaceInput = false;
+
         while(!PlaceInput)
         {
           System.out.println("Choose the direction: 'W','S','D','A'");
@@ -681,16 +686,30 @@ public class JavaCraft
 
           switch(choice)
           {
-            case "w": PlaceInput = true;direction = "W";break;
-            case "s": PlaceInput = true;direction = "S";break;
-            case "c": PlaceInput = true;direction = "D";break;
-            case "a": PlaceInput = true;direction = "A";break;
-
-            default: PlaceInput = false;break;
+            case "w": 
+              PlaceInput = true;
+              direction = "W";
+              break;
+            case "s":
+              PlaceInput = true;
+              direction = "S";
+              break;
+            case "c": 
+              PlaceInput = true;
+              direction = "D";
+              break;
+            case "a": 
+              PlaceInput = true;
+              direction = "A";
+              break;
+            default: 
+              PlaceInput = false;
+              break;
           }
         }
       }
-      if(!validInput)
+
+      if (!validInput)
       {
         System.out.println(ANSI_RED + "USE THE RIGHT INPUTS" + ANSI_RESET);
       }
@@ -704,10 +723,13 @@ public class JavaCraft
     String direction = AskForDirection();
 
     int BlockCoordsX = playerX;
+
     int BlockCoordsY = playerY;
 
-    switch(direction){
-      case "ownPlace": break;
+    switch(direction)
+    {
+      case "ownPlace":
+        break;
       case "W": 
         if(playerY > 0)
         {
@@ -762,7 +784,7 @@ public class JavaCraft
 
           world[BlockCoordsX][BlockCoordsY] = blockType;
 
-          if(CheckMine(BlockCoordsX,BlockCoordsY))
+          if (checkMine(BlockCoordsX, BlockCoordsY))
           {
             System.out.println(ANSI_GREEN + "You covered a mine! Good Job!" + ANSI_RESET);
           }
@@ -770,14 +792,14 @@ public class JavaCraft
           System.out.println("Placed " + getCraftedItemName(craftedItem));
         }
         else
-          {
-            System.out.println("You don't have " + getCraftedItemName(craftedItem) + " in your crafted items.");
-          }
+        {
+          System.out.println("You don't have " + getCraftedItemName(craftedItem) + " in your crafted items.");
+        }
       }
     }
     else
     {
-      System.out.println("Invalid block number. Please enter a valid block number.");
+      System.out.println("Invalid block number. Please enter a valid block number.");f
 
       System.out.println(BLOCK_NUMBERS_INFO);
     }
@@ -1129,6 +1151,7 @@ public class JavaCraft
 
         blockCounts[block]++;
       }
+      
       for (int blockType = 1; blockType < blockCounts.length; blockType++)
       {
         int occurrences = blockCounts[blockType];
