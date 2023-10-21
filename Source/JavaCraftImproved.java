@@ -236,11 +236,11 @@ public class JavaCraftImproved
 
   private static final StringBuilder res = new StringBuilder();
 
-  private static String progress(int pct)
+  private static String progress(int i)
   {
     res.delete(0, res.length());
-    int numPounds = (pct + 9) / 10;
-    for (int i = 0 ; i != numPounds ; i++)
+    int numPounds = (i + 9) / 10;
+    for (int index = 0 ; index != numPounds ; index++)
     {
         res.append('#');
     }
