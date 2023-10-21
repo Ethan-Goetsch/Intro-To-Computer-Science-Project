@@ -214,19 +214,19 @@ public class JavaCraftImproved
       }
     }
   }
-
+ 
   public static String GetRowColor(int row)
   {
       row = row + 1;
-      if(row <= 3 || (row > 15))
+      if(row <= 9 || (row > 45))
       {
         return ANSI_RED;
       }
-      else if(row <= 6 || (row <=18 && row > 12))
+      else if(row <= 18 || (row <=54 && row > 36))
       {
         return ANSI_WHITE;
       }
-      else if(row <= 12)
+      else if(row <= 36)
       {
         return ANSI_BLUE;
       }
@@ -234,32 +234,68 @@ public class JavaCraftImproved
       return "";
   }
 
-  public static void DrawFlagTEST()
+  private static final StringBuilder res = new StringBuilder();
+
+  private static String progress(int pct)
   {
-    int flagHeight = 18;
-    int flagWidth = 69;
-
-    System.out.println(ANSI_RESET);
-
-    String Current_color = "";
-
-    for(int i = 0; i < flagHeight; i++)
+    res.delete(0, res.length());
+    int numPounds = (pct + 9) / 10;
+    for (int i = 0 ; i != numPounds ; i++)
     {
-      Current_color = GetRowColor(i);
-
-      for(int j=0; j < flagWidth; j++)
-      {
-        System.out.print(Current_color + "■");
-      }
-      System.out.println();
+        res.append('#');
     }
-    System.out.print(ANSI_RESET);
+    while (res.length() != 10)
+    {
+        res.append(' ');
+    }
+    return res.toString();
+  }
+
+  private static String GetProgressText(int i){
+    if(i < 15) return "Generating Flag.  ";
+
+    if(i < 20) return "Generating Flag.. ";
+
+    if(i < 25) return "Generating Flag...";
+
+    if(i < 30) return "Calling API.      ";
+
+    if(i < 35) return "Calling API..     ";
+
+    if(i < 40) return "Calling API...    ";
+
+    if(i < 55) return "Almost done.      ";
+
+    if(i < 60) return "Almost done..     ";
+
+    if(i < 70) return "Almost done...    ";
+
+    return "Almost done...    ";
   }
 
     public static void DrawFlag()
     {
-    int flagHeight = 18;
-    int flagWidth = 69;
+    System.out.println();
+    System.out.println();
+    for (int i = 0 ; i <= 100 ; i++)
+    {
+      try
+      {
+        Thread.sleep(55);
+      } catch (InterruptedException e)
+      {
+        // Auto-generated catch block
+        e.printStackTrace();
+      }
+
+      System.out.print(String.format("[%s]%d%% %s\r", progress(i), i, GetProgressText(i)));
+    }
+
+    System.out.println();
+    System.out.println();
+
+    int flagHeight = 54;
+    int flagWidth = 200;
 
     System.out.println(ANSI_RESET);
 
