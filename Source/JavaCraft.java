@@ -799,7 +799,7 @@ public class JavaCraft
     }
     else
     {
-      System.out.println("Invalid block number. Please enter a valid block number.");f
+      System.out.println("Invalid block number. Please enter a valid block number.");
 
       System.out.println(BLOCK_NUMBERS_INFO);
     }

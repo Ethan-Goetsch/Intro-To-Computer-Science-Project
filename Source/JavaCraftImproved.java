@@ -519,7 +519,7 @@ public class JavaCraftImproved
         {
           secretDoorUnlocked = true;
 
-          resetWorld();
+          //resetWorld();
 
           System.out.println("Secret door unlocked!");
 
@@ -568,7 +568,7 @@ public class JavaCraftImproved
 
         System.out.println("You have entered the secret area!");
 
-        System.out.println("You are now presented with a game board with a flag!");
+        System.out.println("You are now presented with a flag!");
 
         inSecretArea = true;
 
@@ -598,8 +598,8 @@ public class JavaCraftImproved
 
   private static void resetWorld()
   {
-    generateEmptyWorld();
-
+    DrawFlag();
+    
     playerX = worldWidth / 2;
 
     playerY = worldHeight / 2;
