@@ -234,24 +234,26 @@ public class JavaCraftImproved
       return "";
   }
 
-  private static final StringBuilder res = new StringBuilder();
+  private static final StringBuilder result = new StringBuilder();
 
   private static String progress(int i)
   {
-    res.delete(0, res.length());
-    int numPounds = (i + 9) / 10;
-    for (int index = 0 ; index != numPounds ; index++)
+    result.delete(0, result.length());
+    int current_progress = (i + 9) / 10;
+    for (int index = 0 ; index != current_progress ; index++)
     {
-        res.append('#');
+        result.append('#');
     }
-    while (res.length() != 10)
+    while (result.length() != 10)
     {
-        res.append(' ');
+        result.append(' ');
     }
-    return res.toString();
+    return result.toString();
   }
 
   private static String GetProgressText(int i){
+    // Haha fancy print to look like smth is happening behind the scenes O_o
+
     if(i < 15) return "Generating Flag.  ";
 
     if(i < 20) return "Generating Flag.. ";
